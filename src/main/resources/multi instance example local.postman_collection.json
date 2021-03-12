@@ -1,0 +1,75 @@
+{
+	"info": {
+		"_postman_id": "f71593aa-a9bc-410c-b754-bdf0ddccd339",
+		"name": "Camunda local",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Complete User task for Cars with collection",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"variables\":\n {\n     \"cars\": {\n     \"value\":\"[{\\\"id\\\": 1, \\\"name\\\": \\\"VW\\\", \\\"type\\\":\\\"Golf\\\"}, {\\\"id\\\": 2, \\\"name\\\": \\\"Seat\\\", \\\"type\\\":\\\"Ibiza\\\"}]\",\n      \"type\":\"json\"\n     }\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/engine-rest/task/fac4a8d7-8287-11eb-9f75-acde48001122/complete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"engine-rest",
+						"task",
+						"fac4a8d7-8287-11eb-9f75-acde48001122",
+						"complete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Tasks",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "JSESSIONID",
+						"value": "27DBD29B626AD95DA6361AA161C47286",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/engine-rest/task",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"engine-rest",
+						"task"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

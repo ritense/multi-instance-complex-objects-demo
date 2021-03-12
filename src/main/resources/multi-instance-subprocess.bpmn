@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_03hr1oc" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.6.0">
+  <bpmn:process id="car_type" name="Car Type" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_1963r46</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1963r46" sourceRef="StartEvent_1" targetRef="JSON_Collection" />
+    <bpmn:sequenceFlow id="Flow_0n3n3ix" sourceRef="JSON_Collection" targetRef="Activity_0dp5na2" />
+    <bpmn:subProcess id="Activity_0dp5na2">
+      <bpmn:incoming>Flow_0n3n3ix</bpmn:incoming>
+      <bpmn:multiInstanceLoopCharacteristics camunda:collection="${cars.elements()}" camunda:elementVariable="car" />
+      <bpmn:startEvent id="Event_1hx8kau">
+        <bpmn:outgoing>Flow_0612pa4</bpmn:outgoing>
+      </bpmn:startEvent>
+      <bpmn:sequenceFlow id="Flow_0612pa4" sourceRef="Event_1hx8kau" targetRef="Activity_1ntk0n0" />
+      <bpmn:serviceTask id="Activity_1ntk0n0" name="Set local car" camunda:expression="${execution.setVariableLocal(&#34;carLocal&#34;, car)}">
+        <bpmn:incoming>Flow_0612pa4</bpmn:incoming>
+        <bpmn:outgoing>Flow_12ikugs</bpmn:outgoing>
+      </bpmn:serviceTask>
+      <bpmn:sequenceFlow id="Flow_12ikugs" sourceRef="Activity_1ntk0n0" targetRef="print__car_name" />
+      <bpmn:scriptTask id="print__car_name" name="Car Name" camunda:asyncBefore="true" scriptFormat="javascript">
+        <bpmn:incoming>Flow_12ikugs</bpmn:incoming>
+        <bpmn:outgoing>Flow_0oays0g</bpmn:outgoing>
+        <bpmn:script>var system = java.lang.System;
+system.out.println('printing car name:')
+
+var carLocal = execution.getVariableTyped("carLocal").getValueSerialized();
+system.out.println(S(carLocal).prop("name").stringValue());
+</bpmn:script>
+      </bpmn:scriptTask>
+      <bpmn:sequenceFlow id="Flow_0oays0g" sourceRef="print__car_name" targetRef="Activity_042bn8h" />
+      <bpmn:scriptTask id="Activity_042bn8h" name="Car type" scriptFormat="javascript">
+        <bpmn:incoming>Flow_0oays0g</bpmn:incoming>
+        <bpmn:outgoing>Flow_0ijmyjo</bpmn:outgoing>
+        <bpmn:script>var system = java.lang.System;
+system.out.println('printing car type:')
+
+var carLocal = execution.getVariableTyped("carLocal").getValueSerialized();
+system.out.println(S(carLocal).prop("type").stringValue());</bpmn:script>
+      </bpmn:scriptTask>
+      <bpmn:endEvent id="Event_18mlo6c" name="the end">
+        <bpmn:incoming>Flow_0c2ova8</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:sequenceFlow id="Flow_0ijmyjo" sourceRef="Activity_042bn8h" targetRef="Activity_1kpseir" />
+      <bpmn:sequenceFlow id="Flow_0c2ova8" sourceRef="Activity_1kpseir" targetRef="Event_18mlo6c" />
+      <bpmn:userTask id="Activity_1kpseir" name="WaitTask">
+        <bpmn:incoming>Flow_0ijmyjo</bpmn:incoming>
+        <bpmn:outgoing>Flow_0c2ova8</bpmn:outgoing>
+      </bpmn:userTask>
+      <bpmn:textAnnotation id="TextAnnotation_0m1fex5">
+        <bpmn:text>Wait to see the process variables</bpmn:text>
+      </bpmn:textAnnotation>
+      <bpmn:association id="Association_121pp2b" sourceRef="Activity_1kpseir" targetRef="TextAnnotation_0m1fex5" />
+    </bpmn:subProcess>
+    <bpmn:userTask id="JSON_Collection" name="JSON Collection">
+      <bpmn:incoming>Flow_1963r46</bpmn:incoming>
+      <bpmn:outgoing>Flow_0n3n3ix</bpmn:outgoing>
+    </bpmn:userTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="car_type">
+      <bpmndi:BPMNEdge id="Flow_1963r46_di" bpmnElement="Flow_1963r46">
+        <di:waypoint x="215" y="267" />
+        <di:waypoint x="270" y="267" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0n3n3ix_di" bpmnElement="Flow_0n3n3ix">
+        <di:waypoint x="370" y="267" />
+        <di:waypoint x="450" y="267" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="249" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1sm1ai9_di" bpmnElement="JSON_Collection">
+        <dc:Bounds x="270" y="227" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0mb7w2p_di" bpmnElement="Activity_0dp5na2" isExpanded="true">
+        <dc:Bounds x="450" y="83" width="810" height="360" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0m1fex5_di" bpmnElement="TextAnnotation_0m1fex5">
+        <dc:Bounds x="1140" y="150" width="100" height="54" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0612pa4_di" bpmnElement="Flow_0612pa4">
+        <di:waypoint x="518" y="273" />
+        <di:waypoint x="570" y="273" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_12ikugs_di" bpmnElement="Flow_12ikugs">
+        <di:waypoint x="670" y="273" />
+        <di:waypoint x="730" y="273" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0oays0g_di" bpmnElement="Flow_0oays0g">
+        <di:waypoint x="830" y="273" />
+        <di:waypoint x="890" y="273" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0ijmyjo_di" bpmnElement="Flow_0ijmyjo">
+        <di:waypoint x="990" y="273" />
+        <di:waypoint x="1040" y="273" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0c2ova8_di" bpmnElement="Flow_0c2ova8">
+        <di:waypoint x="1140" y="273" />
+        <di:waypoint x="1182" y="273" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_1hx8kau_di" bpmnElement="Event_1hx8kau">
+        <dc:Bounds x="482" y="255" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_14bj94m_di" bpmnElement="Activity_1ntk0n0">
+        <dc:Bounds x="570" y="233" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1nvguje_di" bpmnElement="print__car_name">
+        <dc:Bounds x="730" y="233" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1cgp7nh_di" bpmnElement="Activity_042bn8h">
+        <dc:Bounds x="890" y="233" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_18mlo6c_di" bpmnElement="Event_18mlo6c">
+        <dc:Bounds x="1182" y="255" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1182" y="298" width="37" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_022j7gs_di" bpmnElement="Activity_1kpseir">
+        <dc:Bounds x="1040" y="233" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_121pp2b_di" bpmnElement="Association_121pp2b">
+        <di:waypoint x="1127" y="233" />
+        <di:waypoint x="1154" y="204" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
