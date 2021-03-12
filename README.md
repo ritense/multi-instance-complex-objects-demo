@@ -1,6 +1,6 @@
 # Multi instance subprocess with complex object collection
 
-Demonstration using complex objects as process variables in combination with multi instance sub process
+Demonstration using complex objects as process variables in combination with multi instance sub process in Camunda
 
 > Recommendation is to use JSON to serialize complex objects. More info [here](https://camunda.com/best-practices/handling-data-in-processes/#__strong_serializing_strong_complex_data)
 
